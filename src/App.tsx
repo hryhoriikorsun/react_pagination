@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import './App.css';
 
 import { getNumbers } from './utils';
@@ -13,7 +11,7 @@ const items: string[] = getNumbers(1, 42).map(n => `Item ${n}`);
 
 const itemsWithID: StratureIDAndBody[] = items.map((item, idx) => {
   return {
-    id: uuidv4(),
+    id: `${idx}`,
     body: item,
     byNumber: idx,
   };

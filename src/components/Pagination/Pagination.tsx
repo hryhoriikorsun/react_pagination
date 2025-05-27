@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import cn from 'classnames';
 import { StratureIDAndBody } from '../../types/StratureIDAndBody';
 
@@ -29,7 +27,7 @@ export const Pagination: React.FC<Props> = ({
     const howManyPages = Math.ceil(totalLength / Number(perPageLength));
 
     for (let i = 1; i <= howManyPages; i++) {
-      quantityPages = [...quantityPages, { id: uuidv4(), body: `${i}` }];
+      quantityPages = [...quantityPages, { id: `${i}`, body: `${i}` }];
     }
 
     return quantityPages;
