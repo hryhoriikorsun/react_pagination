@@ -1,33 +1,29 @@
-import React from 'react';
-
 import cn from 'classnames';
 import { StratureIDAndBody } from '../../types/StratureIDAndBody';
 
-type CountNumbersOfPages = (a: number, b: string) => StratureIDAndBody[];
-
-interface Props {
+interface PaginationProps {
   total: number;
-  perPage: string;
-  currentPage: string;
-  onPageChange?: (value: string) => void;
+  perPage: number;
+  currentPage: number;
+  onPageChange?: (value: number) => void;
 }
 
-export const Pagination: React.FC<Props> = ({
+export const Pagination = ({
   total,
   perPage,
   currentPage,
   onPageChange = () => {},
-}) => {
-  const countNumbersOfPages: CountNumbersOfPages = (
-    totalLength,
-    perPageLength,
-  ) => {
+}: PaginationProps) => {
+  const countNumbersOfPages = (
+    totalLength: number,
+    perPageLength: number,
+  ): StratureIDAndBody[] => {
     let quantityPages: StratureIDAndBody[] = [];
 
     const howManyPages = Math.ceil(totalLength / Number(perPageLength));
 
     for (let i = 1; i <= howManyPages; i++) {
-      quantityPages = [...quantityPages, { id: `${i}`, body: `${i}` }];
+      quantityPages = [...quantityPages, { id: i, body: `${i}` }];
     }
 
     return quantityPages;
@@ -37,15 +33,15 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={cn('page-item', { disabled: currentPage === '1' })}>
+      <li className={cn('page-item', { disabled: currentPage === 1 })}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === '1'}
+          aria-disabled={currentPage === 1}
           onClick={() => {
-            if (currentPage !== '1') {
-              onPageChange(String(+currentPage - 1));
+            if (currentPage !== 1) {
+              onPageChange(currentPage - 1);
             }
           }}
         >
@@ -58,14 +54,14 @@ export const Pagination: React.FC<Props> = ({
           <li
             key={numberPage.id}
             className={cn('page-item', {
-              active: currentPage === numberPage.body,
+              active: currentPage === +numberPage.body,
             })}
           >
             <a
               data-cy="pageLink"
               className="page-link"
               href={`#${idx + 1}`}
-              onClick={() => onPageChange(numberPage.body)}
+              onClick={() => onPageChange(+numberPage.body)}
             >
               {numberPage.body}
             </a>
@@ -75,17 +71,17 @@ export const Pagination: React.FC<Props> = ({
 
       <li
         className={cn('page-item', {
-          disabled: currentPage === String(numberOfPages.length),
+          disabled: currentPage === numberOfPages.length,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === String(numberOfPages.length)}
+          aria-disabled={currentPage === numberOfPages.length}
           onClick={() => {
-            if (currentPage !== String(numberOfPages.length)) {
-              onPageChange(String(+currentPage + 1));
+            if (currentPage !== numberOfPages.length) {
+              onPageChange(currentPage + 1);
             }
           }}
         >

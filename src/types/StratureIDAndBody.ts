@@ -1,5 +1,5 @@
 export interface StratureIDAndBody {
-  id: string;
+  id: number;
   body: string;
   byNumber?: number;
 }

@@ -5,13 +5,14 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import { StratureIDAndBody } from './types/StratureIDAndBody';
+import { SELET_OPTION } from './constants';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items: string[] = getNumbers(1, 42).map(n => `Item ${n}`);
 
 const itemsWithID: StratureIDAndBody[] = items.map((item, idx) => {
   return {
-    id: `${idx}`,
+    id: idx,
     body: item,
     byNumber: idx,
   };
@@ -19,8 +20,8 @@ const itemsWithID: StratureIDAndBody[] = items.map((item, idx) => {
 
 type FiltereItems = (
   a: StratureIDAndBody[],
-  b: string,
-  c: string,
+  b: number,
+  c: number,
 ) => StratureIDAndBody[];
 
 const filtereItems: FiltereItems = (elements, perPage, currentPage) => {
@@ -35,8 +36,8 @@ const filtereItems: FiltereItems = (elements, perPage, currentPage) => {
 };
 
 const findLastElementOnPage = (
-  perPage: string,
-  currentPage: string,
+  perPage: number,
+  currentPage: number,
 ): number => {
   return Number(perPage) * Number(currentPage) > itemsWithID.length
     ? itemsWithID.length
@@ -48,15 +49,15 @@ const findFirstElementOnPage = (page: StratureIDAndBody[]): number => {
 };
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState('5');
-  const [currentPage, setCurrentPage] = useState('1');
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const page = filtereItems(itemsWithID, perPage, currentPage);
   const firstElementOnPage = findFirstElementOnPage(page);
   const lastElementOnPage = findLastElementOnPage(perPage, currentPage);
 
   const handleOnChangeItemsPerPage = (value: string) => {
-    return setPerPage(value), setCurrentPage('1');
+    return setPerPage(Number(value)), setCurrentPage(1);
   };
 
   return (
@@ -79,10 +80,13 @@ export const App: React.FC = () => {
               handleOnChangeItemsPerPage(event.target.value);
             }}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {Object.entries(SELET_OPTION).map(([key, val]) => {
+              return (
+                <option key={key} value={val}>
+                  {val}
+                </option>
+              );
+            })}
           </select>
         </div>
 
