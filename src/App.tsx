@@ -26,8 +26,8 @@ type FiltereItems = (
 
 const filtereItems: FiltereItems = (elements, perPage, currentPage) => {
   const filteredItems = elements.filter((item, idx) => {
-    const lastElementInPage = Number(perPage) * Number(currentPage);
-    const firstElementInPage = lastElementInPage - Number(perPage);
+    const lastElementInPage = perPage * currentPage;
+    const firstElementInPage = lastElementInPage - perPage;
 
     return idx >= firstElementInPage && idx < lastElementInPage;
   });
