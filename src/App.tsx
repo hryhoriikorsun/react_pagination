@@ -34,7 +34,7 @@ const filtereItems: FiltereItems = (elements, perPage, currentPage) => {
   return filteredItems;
 };
 
-const getFirstElementOnPage = (
+const findLastElementOnPage = (
   perPage: string,
   currentPage: string,
 ): number => {
@@ -43,7 +43,7 @@ const getFirstElementOnPage = (
     : Number(perPage) * Number(currentPage);
 };
 
-const getLastElementOnPage = (page: StratureIDAndBody[]): number => {
+const findFirstElementOnPage = (page: StratureIDAndBody[]): number => {
   return (page[0].byNumber ?? 0) + 1;
 };
 
@@ -52,8 +52,8 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('1');
 
   const page = filtereItems(itemsWithID, perPage, currentPage);
-  const firstElementOnPage = getFirstElementOnPage(perPage, currentPage);
-  const lastElementOnPage = getLastElementOnPage(page);
+  const firstElementOnPage = findFirstElementOnPage(page);
+  const lastElementOnPage = findLastElementOnPage(perPage, currentPage);
 
   const handleOnChangeItemsPerPage = (value: string) => {
     return setPerPage(value), setCurrentPage('1');
@@ -64,7 +64,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {lastElementOnPage} - {firstElementOnPage} of
+        Page {currentPage} (items {firstElementOnPage} - {lastElementOnPage} of
         42)
       </p>
 
